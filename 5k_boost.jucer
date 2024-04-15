@@ -14,6 +14,12 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="luRuKx" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <GROUP id="{FE99FBF5-007C-AF9C-C8B1-0F27B35BA059}" name="Resources">
+      <FILE id="Otczs2" name="5k_boost_before.jpg" compile="0" resource="1"
+            file="Resources/5k_boost_before.jpg"/>
+      <FILE id="BZBUdl" name="5k_boost_unbelievable.jpg" compile="0" resource="1"
+            file="Resources/5k_boost_unbelievable.jpg"/>
+    </GROUP>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

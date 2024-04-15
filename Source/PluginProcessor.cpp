@@ -104,7 +104,7 @@ void _5k_boostAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBl
     left.prepare(spec);
     right.prepare(spec);
 
-    auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 5000.0f, 9.0f, 15.0f);
+    auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 5000.0f, 8.0f, 18.0f);
 
     left.get<0>().coefficients = *peakCoefficients;
     right.get<0>().coefficients = *peakCoefficients;

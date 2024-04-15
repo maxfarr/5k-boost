@@ -15,11 +15,14 @@ _5k_boostAudioProcessorEditor::_5k_boostAudioProcessorEditor (_5k_boostAudioProc
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (500, 500);
+    setSize (700, 700);
+
+    before_img = juce::ImageCache::getFromMemory(BinaryData::_5k_boost_before_jpg, BinaryData::_5k_boost_before_jpgSize);
+    after_img = juce::ImageCache::getFromMemory(BinaryData::_5k_boost_unbelievable_jpg, BinaryData::_5k_boost_unbelievable_jpgSize);
 
     boost->setClickingTogglesState(true);
     boost->onClick = [this] { repaint(); };
-    boost->setBounds(0, 0, 500, 500);
+    boost->setBounds(0, 0, 700, 700);
 
     attachment = new juce::ButtonParameterAttachment(*(audioProcessor.enabled), *boost);
     
@@ -38,8 +41,10 @@ void _5k_boostAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour(juce::Colours::black);
 
     if (*(audioProcessor.enabled)) {
-        g.setFont(15.0f);
-        g.drawFittedText("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+        g.drawImageAt(after_img, 0, 0);
+    }
+    else {
+        g.drawImageAt(before_img, 0, 0);
     }
 }
 

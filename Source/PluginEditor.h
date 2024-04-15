@@ -32,5 +32,7 @@ private:
     juce::ToggleButton* boost = new juce::ToggleButton();
     juce::ButtonParameterAttachment* attachment;
 
+    juce::Image before_img, after_img;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (_5k_boostAudioProcessorEditor)
 };
