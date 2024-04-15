@@ -41,8 +41,6 @@ void _5k_boostAudioProcessorEditor::paint (juce::Graphics& g)
         g.setFont(15.0f);
         g.drawFittedText("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
     }
-    //g.setFont(15.0f);
-    //g.drawFittedText("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void _5k_boostAudioProcessorEditor::resized()

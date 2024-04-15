@@ -95,8 +95,19 @@ void _5k_boostAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void _5k_boostAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    booster = new juce::IIRFilter();
-    booster->setCoefficients(juce::IIRCoefficients::makePeakFilter(sampleRate, 5000.0f, 10.0f, 20));
+    juce::dsp::ProcessSpec spec;
+
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = 1;
+    spec.sampleRate = sampleRate;
+
+    left.prepare(spec);
+    right.prepare(spec);
+
+    auto peakCoefficients = juce::dsp::IIR::Coefficients<float>::makePeakFilter(sampleRate, 5000.0f, 9.0f, 15.0f);
+
+    left.get<0>().coefficients = *peakCoefficients;
+    right.get<0>().coefficients = *peakCoefficients;
 }
 
 void _5k_boostAudioProcessor::releaseResources()
@@ -146,19 +157,17 @@ void _5k_boostAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    if (*enabled) {
+        juce::dsp::AudioBlock<float> block(buffer);
 
-        if (*enabled) {
-            booster->processSamples(channelData, buffer.getNumSamples());
-        }
+        auto leftBlock = block.getSingleChannelBlock(0);
+        auto rightBlock = block.getSingleChannelBlock(1);
+
+        juce::dsp::ProcessContextReplacing<float> leftContext(leftBlock);
+        juce::dsp::ProcessContextReplacing<float> rightContext(rightBlock);
+
+        left.process(leftContext);
+        right.process(rightContext);
     }
 }
 

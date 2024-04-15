@@ -54,11 +54,15 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     juce::AudioParameterBool* enabled;
-    juce::IIRFilter* booster;
 
     juce::FileLogger* logger;
 
 private:
+    using Filter = juce::dsp::IIR::Filter<float>;
+    using MonoChain = juce::dsp::ProcessorChain<Filter>;
+
+    MonoChain left, right;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (_5k_boostAudioProcessor)
 };
